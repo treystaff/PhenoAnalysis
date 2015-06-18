@@ -57,5 +57,5 @@ MeanGCC = RMeanGCC.getOutput(0)
 STDGCC = RSTDGCC.getOutput(0)
 
 textfile = open(outd+"Index.txt","w")
-textfile.write("NDVI: "+"Mean: "+MeanNDVI+" STD: "+STDNDVI+"\nEVI: "+"Mean: "+MeanEVI+" STD: "+STDEVI+"\nGCC: "+"Mean: "+MeanGCC+" STD: "+STDGCC)
+textfile.write("NDVI: "+"Mean: "+str(float(MeanNDVI))+" STD: "+str(float(STDNDVI))+"\nEVI: "+"Mean: "+str(float(MeanEVI))+" STD: "+str(float(STDEVI))+"\nGCC: "+"Mean: "+str(float(MeanGCC))+" STD: "+str(float(STDGCC)))
 textfile.close()
