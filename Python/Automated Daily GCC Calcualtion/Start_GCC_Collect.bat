@@ -39,13 +39,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_0700.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_0700.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_0700.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_0700.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_0700.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_0730.jpg
@@ -53,13 +47,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_0730.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_0730.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_0730.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_0730.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_0730.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_0800.jpg
@@ -67,13 +55,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_0800.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_0800.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_0800.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_0800.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_0800.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_0830.jpg
@@ -81,13 +63,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_0830.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_0830.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_0830.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_0830.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_0830.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_0900.jpg
@@ -95,13 +71,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_0900.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_0900.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_0900.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_0900.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_0900.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_0930.jpg
@@ -109,13 +79,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_0930.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_0930.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_0930.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_0930.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_0930.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1000.jpg
@@ -123,13 +87,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1000.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1000.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1000.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1000.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1000.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1030.jpg
@@ -137,13 +95,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1030.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1030.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1030.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1030.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1030.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1100.jpg
@@ -151,13 +103,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1100.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1100.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1100.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1100.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1100.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1130.jpg
@@ -165,13 +111,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1130.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1130.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1130.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1130.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1130.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1200.jpg
@@ -179,13 +119,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1200.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1200.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1200.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1200.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1200.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1230.jpg
@@ -193,13 +127,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1230.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1230.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1230.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1230.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1230.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1300.jpg
@@ -207,13 +135,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1300.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1300.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1300.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1300.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1300.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1330.jpg
@@ -221,13 +143,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1330.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1330.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1330.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1330.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1330.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1400.jpg
@@ -235,13 +151,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1400.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1400.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1400.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1400.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1400.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1430.jpg
@@ -249,13 +159,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1430.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1430.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1430.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1430.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1430.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1500.jpg
@@ -263,13 +167,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1500.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1500.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1500.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1500.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1500.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1530.jpg
@@ -277,13 +175,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1530.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1530.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1530.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1530.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1530.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1600.jpg
@@ -291,13 +183,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1600.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1600.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1600.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1600.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1600.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1630.jpg
@@ -305,13 +191,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1630.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1630.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1630.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1630.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1630.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1700.jpg
@@ -319,13 +199,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1700.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1700.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1700.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1700.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1700.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1730.jpg
@@ -333,13 +207,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1730.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1730.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1730.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1730.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1730.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1800.jpg
@@ -347,13 +215,7 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1800.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1800.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1800.tif
-
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1800.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1800.tif
-
-timeout 1605 /nobreak >nul
+timeout 1799 /nobreak >nul
 
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_1830.jpg
@@ -361,21 +223,15 @@ wget "http://phenocam.sr.unh.edu/data/latest/oakville.jpg" --output-document D:\
 cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_1830.jpg
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_%paddedX%_%digit%_1830.jpg D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_1830.tif
+timeout 2 /nobreak >nul
 
 cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_GCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_%paddedX%_%digit%_1830.jpg D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_1830.tif
-
-timeout 10 /nobreak >nul
+Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc90percentile.py D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp\Oakville_%paddedX%_%digit%_ D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%
 
 cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_DailyGCC.py D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/temp/Oakville_GCC_%paddedX%_%digit%_ D:/Phenocam/Daily_GCC_Average/Oakville/Oakville_%theFilename%/Oakville_GCC_%paddedX%_%digit%_
+Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc90percentile.py D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%\temp\EROS_%paddedX%_%digit%_ D:\Phenocam\Daily_GCC_Average\EROS\EROS_%theFilename%
 
-cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc_DailyGCC.py D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/temp/EROS_GCC_%paddedX%_%digit%_ D:/Phenocam/Daily_GCC_Average/EROS/EROS_%theFilename%/EROS_GCC_%paddedX%_%digit%_
-
-timeout 10 /nobreak >nul
+timeout 2 /nobreak >nul
 
 rmdir /s /q "D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%theFilename%\temp"
 
