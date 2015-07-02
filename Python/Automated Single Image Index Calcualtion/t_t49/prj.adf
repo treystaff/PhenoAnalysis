@@ -1,0 +1,12 @@
+Projection    MERCATOR
+Datum         WGS84
+Spheroid      WGS84
+Units         METERS
+Zunits        NO
+Xshift        0.0
+Yshift        0.0
+Parameters    
+   0  0  0.0 /* longitude of central meridian
+   0  0  0.0 /* latitude of true scale
+0.0 /* false easting (meters)
+0.0 /* false northing (meters)
