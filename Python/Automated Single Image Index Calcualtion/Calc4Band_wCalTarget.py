@@ -19,8 +19,8 @@ rz = (sys.argv[3]) # Output 4 Band Image
 outd = (sys.argv[4]) # Output Directory\
 
 #the masks to be used to extract the calibration target and the ROI from the imagery
-mask = "C:/Phenocam/Mask/Oakville_Mask.shp" #Extraction mask for imagery
-calmask = "C:/Phenocam/Mask/Oakville_CalibrationTarget_Mask.shp" # Extraction mask of calibration target
+mask = "D:/Phenocam/Mask/Oakville_Mask.shp" #Extraction mask for imagery
+calmask = "D:/Phenocam/Mask/Oakville_CalibrationTarget_Mask.shp" # Extraction mask of calibration target
 
 #the calcualted percent reflectance values for the calibration target (will change from site to site)
 RedReflect = float(27.738) # red reflectance 
