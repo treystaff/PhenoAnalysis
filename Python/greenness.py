@@ -102,6 +102,32 @@ def mean_ndvi(rgb, ir):
     # Calculate and return NDVI
     return (ir - red) / (ir + red)
 
+def create_ndvi(rgb,ir,saveto=None):
+    """
+    Create an NDVI image
+
+    Parameters:
+        rgb - PhenoCam RGB image with same timestamp as ir
+        ir - PhenoCam IR image with same timestamp as rgb
+        saveto - Path to save NDVI image to (optional)
+
+    Returns:
+        ndvi - A numpy matrix representing an NDVI image.
+    """
+    # Extract the necessary bands
+    red = rgb[:,:,0].astype(np.int16)
+    ir = ir[:,:,0].astype(np.int16)
+
+    # Create a new numpy matrix to contain the ndvi image.
+    ndvi = np.zeros(rgb.shape[:2])  # Should be same shape as rgb image (except only 1 band).
+
+    ndvi = np.true_divide(np.subtract(ir, red), np.add(ir, red))
+
+    if saveto:
+        misc.imsave(saveto, ndvi)
+
+    return ndvi
+
 def create_cir(rgb, ir, saveto=None):
     """
     Create a color infrared image.
