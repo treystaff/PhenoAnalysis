@@ -1,16 +1,26 @@
-import arcpy
-import numpy
-arcpy.CheckOutExtension("Spatial")
-from arcpy.sa import *
+"""
 
-count = 1
-Ntime = "0000"
-dailyperc = 0
-mask = r"D:\Phenocam\Mask\Mask.shp"
-inputraster = (sys.argv[1])
-output = (sys.argv[2])
+This script is to be used for the phenocam project.
+Created by Morgen Burke
 
-while (count <= 24):
+This script is going to calcualte the daily gcc value using 24 color images collected during the day, the input
+images must be input as the first agrument correctly so that the script can run through all 24 images
+starting with image taken at 7:00 and then every consecutive image every half hour untill image 18:30.
+
+"""
+import arcpy # requires ArcGIS
+import numpy # used to compute arrays
+arcpy.CheckOutExtension("Spatial") # requires spatial analyst in ArcGIS
+from arcpy.sa import * 
+
+count = 1 # used to count through the processing of all 24 images
+Ntime = "0000" # holds the time of the current image being processed
+dailyperc = 0 # holds the 90th percentile value for the day
+mask = r"C:\Phenocam\Mask\Mask.shp" # the maks used to extract the imagery region of interest
+inputraster = (sys.argv[1]) # the input raster images location using c:/location/filename_Ntime.jpg (Ntime.jpg are calcualted atomatically)
+output = (sys.argv[2]) # the output location for output GCC calcualtion
+
+while (count <= 24): # while loops through all 24 images
 
     if (count == 1):
         Ntime = "0700"
@@ -62,38 +72,51 @@ while (count <= 24):
         Ntime = "1830"
     count = count + 1
 
-    raster = r"" + inputraster + Ntime + ".jpg"
+    raster = r"" + inputraster + Ntime + ".jpg" #used to determine the file path of the image being computed
 
-    BandRed = raster + "\Band_1"
-    BandGreen = raster + "\Band_2"
-    BandBlue = raster + "\Band_3"
+    BandRed = raster + "\Band_1" #the red band of the current raster
+    BandGreen = raster + "\Band_2" #the green band of the current raster
+    BandBlue = raster + "\Band_3" #the blue band of the current raster
 
+    # extract the ROI from the 3 bands
     mBandRed = ExtractByMask(BandRed,mask)
     mBandGreen = ExtractByMask(BandGreen,mask)
     mBandBlue = ExtractByMask(BandBlue,mask)
 
+    # turn 3 bands into arrays of each pixel value
     arrRed = numpy.float32(numpy.ndarray.flatten(arcpy.RasterToNumPyArray(mBandRed,"","","","")))
     arrGreen = numpy.float32(numpy.ndarray.flatten(arcpy.RasterToNumPyArray(mBandGreen,"","","","")))
     arrBlue = numpy.float32(numpy.ndarray.flatten(arcpy.RasterToNumPyArray(mBandBlue,"","","","")))
 
+    # delete the extracted ROI bands
     del mBandRed
     del mBandGreen
     del mBandBlue
 
+    # calcualte GCC for current image
     arrGCC = numpy.float32(arrGreen + arrRed)
     arrGCC = numpy.float32(arrGCC + arrBlue)
     arrGCC = numpy.float32(numpy.divide(arrGreen,arrGCC))
 
+    # find 90th percentile of current image
     arrayperc = float(numpy.percentile(arrGCC, 90))
 
+    #append current image array to a list of all image arrays to calcualte daily GCC 90th percentile from
     dailyperc = numpy.float32(numpy.append(arrGCC,dailyperc))
-    print arrayperc
-    print len(dailyperc)
+    print arrayperc # give user output of current image 90th percentile GCC
+    print len(dailyperc) # print the number of pixel values in daily GCC array
 
+# output the daily GCC array as a text file to be used in three day averages
+textfile = r""+output+"\Daily_GCC_90Perc_Array.npy"
+numpy.save(textfile, dailyperc)
+
+# calcualte 90th percentile of daily GCC
 dailyperc = float(numpy.percentile(dailyperc, 90))
 
-print ("90th percentile: " + str(dailyperc)+ "\n")
+print ("90th percentile: " + str(dailyperc)+ "\n") #print daily GCC 90th percentile to user
 
+# output daily 90th percentile GCC calcualtion
 textfile = open(r""+output+"\GCC Calcualtion.txt","w")
 textfile.write("GCC: " + str(dailyperc))
 textfile.close()
+

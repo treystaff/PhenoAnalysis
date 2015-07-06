@@ -44,7 +44,7 @@ cd "C:\Program Files (x86)\GnuWin32\bin"
 wget "http://phenocam.sr.unh.edu/data/latest/usgseros_IR.jpg" --output-document D:\Phenocam\EROS\EROS_%theFilename%\EROS_IR_%paddedX%_%digit%_%t%.jpg
 
 cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Calc4Band.py D:/Phenocam/Oakville/Oakville_%theFilename%/Oakville_%paddedX%_%digit%_%t%.jpg D:/Phenocam/Oakville/Oakville_%theFilename%/Oakville_IR_%paddedX%_%digit%_%t%.jpg D:/Phenocam/Oakville/Oakville_%theFilename%/Oakville_Comp_%paddedX%_%digit%_%t%.tif D:/Phenocam/Oakville/Oakville_%theFilename%/
+Python.exe D:/Phenocam/Calc4Band_wCalTarget.py D:/Phenocam/Oakville/Oakville_%theFilename%/Oakville_%paddedX%_%digit%_%t%.jpg D:/Phenocam/Oakville/Oakville_%theFilename%/Oakville_IR_%paddedX%_%digit%_%t%.jpg D:/Phenocam/Oakville/Oakville_%theFilename%/Oakville_Comp_%paddedX%_%digit%_%t%.tif D:/Phenocam/Oakville/Oakville_%theFilename%/
 
 cd "C:\Python27\ArcGIS10.3"
 Python.exe D:/Phenocam/Calc4Band.py D:/Phenocam/EROS/EROS_%theFilename%/EROS_%paddedX%_%digit%_%t%.jpg D:/Phenocam/EROS/EROS_%theFilename%/EROS_IR_%paddedX%_%digit%_%t%.jpg D:/Phenocam/EROS/EROS_%theFilename%/EROS_Comp_%paddedX%_%digit%_%t%.tif D:/Phenocam/EROS/EROS_%theFilename%/
