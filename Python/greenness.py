@@ -102,7 +102,7 @@ def mean_ndvi(rgb, ir):
     # Calculate and return NDVI
     return (ir - red) / (ir + red)
 
-def create_ndvi(rgb,ir,saveto=None):
+def create_ndvi(rgb, ir, saveto=None):
     """
     Create an NDVI image
 
@@ -119,7 +119,7 @@ def create_ndvi(rgb,ir,saveto=None):
     ir = ir[:,:,0].astype(np.int16)
 
     # Create a new numpy matrix to contain the ndvi image.
-    ndvi = np.zeros(rgb.shape[:2])  # Should be same shape as rgb image (except only 1 band).
+    ndvi = np.zeros(red.shape)  # Should be same shape as red band
 
     ndvi = np.true_divide(np.subtract(ir, red), np.add(ir, red))
 
