@@ -227,10 +227,10 @@ wget "http://phenocam.sr.unh.edu/data/latest/usgseros.jpg" --output-document D:\
 timeout 2 /nobreak >nul
 
 cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc90percentile.py D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%d%\temp\Oakville_%paddedX%_%digit%_ D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%d%
+Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc90percentile.py D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%d%\temp\Oakville_%paddedX%_%digit%_ D:\Phenocam\Daily_GCC_Average\Oakville\Oakville_%d% D:/Phenocam/Mask/Oakville_Mask.shp
 
 cd "C:\Python27\ArcGIS10.3"
-Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc90percentile.py D:\Phenocam\Daily_GCC_Average\EROS\EROS_%d%\temp\EROS_%paddedX%_%digit%_ D:\Phenocam\Daily_GCC_Average\EROS\EROS_%d%
+Python.exe D:/Phenocam/Daily_GCC_Average/bin/Calc90percentile.py D:\Phenocam\Daily_GCC_Average\EROS\EROS_%d%\temp\EROS_%paddedX%_%digit%_ D:\Phenocam\Daily_GCC_Average\EROS\EROS_%d% D:/Phenocam/Mask/Mask.shp
 
 timeout 2 /nobreak >nul
 
