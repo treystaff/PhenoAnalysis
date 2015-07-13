@@ -16,7 +16,7 @@ from arcpy.sa import *
 count = 1 # used to count through the processing of all 24 images
 Ntime = "0000" # holds the time of the current image being processed
 dailyperc = 0 # holds the 90th percentile value for the day
-mask = r"C:\Phenocam\Mask\Mask.shp" # the maks used to extract the imagery region of interest
+mask = (sys.argv[3]) # the maks used to extract the imagery region of interest
 inputraster = (sys.argv[1]) # the input raster images location using c:/location/filename_Ntime.jpg (Ntime.jpg are calcualted atomatically)
 output = (sys.argv[2]) # the output location for output GCC calcualtion
 
