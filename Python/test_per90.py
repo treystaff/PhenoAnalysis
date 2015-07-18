@@ -8,9 +8,10 @@ from scipy import misc
 import matplotlib
 from matplotlib import pyplot as plt
 
-execfile('/home/trey/Documents/code/PhenoAnalysis/Python/greenness.py')
-execfile('/home/trey/Documents/code/phenocam_toolkit.py')
-phenoDir = '/home/trey/Documents/code/'
+execfile('/home/trey/CODE/PhenoAnalysis/Python/greenness.py')
+execfile('/home/trey/CODE/PhenoAnalysis/Python/unpack_landsat.py')
+execfile('/home/trey/CODE/PhenoAnalysis/Python/phenocam_toolkit.py')
+phenoDir = '/media/sf_O/PhenoCam/images/rgb/'
 sitename = 'ninemileprairie'
 
 gcc = []
@@ -36,5 +37,15 @@ df = per90(dates,gcc)
 # Plot the results (compare per90 w/ raw gcc calc)
 ax = df.plot(style='go',ms=10, label='Per90 GCC')
 ax.plot(dates,gcc,'r*',label='Raw GCC')
+ax.title('Raw vs Per90 GCC')
 ax.legend(loc='best',numpoints=1)
+plt.show()
+
+
+ax = df.plot(style='go',ms=10, label='Per90 GCC')
+ax.plot(phenodates,phenoGcc,'r*',label='Raw GCC')
+ax.title('Raw vs Per90 GCC')
+ax.legend(loc='best',numpoints=1)
+ax.xlabel('Date')
+ax.ylabel('Mean GCC')
 plt.show()
