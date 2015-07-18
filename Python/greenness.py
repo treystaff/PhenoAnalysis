@@ -3,10 +3,9 @@
 import numpy as np
 import pandas as pd
 from scipy import misc
-
 __author__ = 'Trey'
 
-def mean_gcc(img):
+def mean_gcc(img, roi = None):
     """
     Calculates mean gcc from an image represented by a nummpy array
     Assumes array structured as [rows,cols,bands] where the first
@@ -14,33 +13,36 @@ def mean_gcc(img):
     Mean Gcc = mean(green) / (mean(green)+mean(red)+mean(blue))
 
     Parameters:
-        img - a numpy array, the shape of which is equivalent to (rows,cols,bands)
-            For now, a mask is defined by pixels where all bands' value
-            is zero.
+        img - a PIL image object of a PhenoCam image.
+        roi - (optional) a PIL image object of a PhenoCam image region of interest (roi).
     Returns:
         mean gcc value for non-masked portions of the input image.
     """
     # Extract mean RGB values
-    red = img[:, :, 0]
-    green = img[:, :, 1]
-    blue = img[:, :, 2]
+    red, green, blue = img.split()
+    red = np.asarray(red, dtype=float)
+    green = np.asarray(green, dtype=float)
+    blue = np.asarray(blue, dtype=float)
 
-    # For now, assume [0,0,0] is baddata and should be discarded.
-    msk = img[:, :, :] != 0
+    if roi:
+        roi = np.asarray(roi, dtype=bool)
+        red = np.ma.array(red, mask=roi)
+        green = np.ma.array(green, mask=roi)
+        blue = np.ma.array(blue, mask=roi)
 
-    # Calculate mean of good pixels
-    red = red[msk[:, :, 0]].mean()
-    green = green[msk[:, :, 1]].mean()
-    blue = blue[msk[:, :, 2]].mean()
+    # Calculate mean of pixels
+    red = red.mean()
+    green = green.mean()
+    blue = blue.mean()
 
-    # Calculated GCC
+    # Calculate GCC
     gcc = green / (red + green + blue)
 
     # Return the calculated value.
     return gcc
 
 
-def per90(dates, gcc, period=3):
+def per90(dates, gcc, label='Per90', period=3):
     """
     Calculates the 90th percentile GCC from a numpy array of GCC values, over a
     given period.
@@ -50,6 +52,7 @@ def per90(dates, gcc, period=3):
     Parameters:
         dates - An array of datetime objects corresponding to the calculated GCC values.
         gcc - An array of gcc values, each of which corresponds to a date in x
+        label - A string for which to label the per90 calculated dataframe column.
         period - the period (number of days) over which the per90 gcc value will be calculated.
             The default value is 3 days
     Returns:
@@ -62,42 +65,52 @@ def per90(dates, gcc, period=3):
         without initializing one from date and gcc arrays...)
     """
     # Create a pandas dataframe for the data. (useful timeseries functions builtin)
-    df = pd.DataFrame(data=gcc, index=dates)
+
+    df = pd.DataFrame(data=gcc, index=dates, columns=[label])
+
 
     # Define a 90th percentile function that can be used by pandas' resample method
-    per = lambda x: np.percentile(x,90)
-    '''
+    #per = lambda x: np.percentile(x, 90)
+
     def per(x):
         return np.percentile(x, 90)
-    '''
+
 
     # Resample the dataframe to period number of days
+    pdb.set_trace()
     df = df.resample(str(period) + 'D', how=per)
 
     # Return the resampled dataframe
     return df
 
-def mean_ndvi(rgb, ir):
+def mean_ndvi(rgb, ir, roi=None):
     """
     Calculates the mean NDVI for the rgb/ir image pair
 
     Parameters:
-        rgb - PhenoCam RGB image with same timestamp as ir
-        ir - PhenoCam IR image with same timestamp as rgb
+        rgb - PIL image object of PhenoCam RGB image with same timestamp as ir
+        ir -  PIL image object of PhenoCam IR image with same timestamp as rgb
+        roi - PIL image object of PhenoCam roi image.
 
     Returns:
         The mean NDVI value.
     """
     # Extract the red and infrared bands
-    red = rgb[:,:,0]
-    ir = ir[:,:,0]
+    red, _, _ = rgb.split()
+    ir, _, _ = ir.split()
 
-    # For now, assume [0,0,0] is baddata and should be discarded.
-    msk = rgb[:, :, :] != 0
+    red = np.asarray(red, dtype=float)
+    ir = np.asarray(ir, dtype=float)
+
+    # optionally use roi
+    if roi:
+        roi = np.asarray(roi, dtype=bool)
+        red = np.ma.array(red, mask=roi)
+        ir = np.ma.array(ir, mask=roi)
 
     # Get the mean red and ir values
-    red = red[msk[:,:,0]].mean()
-    ir = ir[msk[:,:,0]].mean()
+    red = red.mean()
+    ir = ir.mean()
 
     # Calculate and return NDVI
     return (ir - red) / (ir + red)
