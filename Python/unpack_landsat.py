@@ -1,16 +1,16 @@
 """
 Functions for processing landsat data
 Included functions:
-	-read_metadata(metapath)
-	-unpack_landsat(inpath,outpath,bands=None)
-	-unpack_dir(indir,outdir,bands=None)
-	-stack_layers(inDir,outPath,bands=None)
-	-world2Pixel(geoMatrix, x, y)
-	-Pixel2World(geoMatrix,x,y)
-	-clip_raster(inRaster,outRaster,inShape)
-	-batch_stack_clip(indir,outdir,shape)
-	
-Dependencies: gdal, numpy, scipy
+    -read_metadata(metapath)
+    -unpack_landsat(inpath,outpath,bands=None)
+    -unpack_dir(indir,outdir,bands=None)
+    -stack_layers(inDir,outPath,bands=None)
+    -world2Pixel(geoMatrix, x, y)
+    -Pixel2World(geoMatrix,x,y)
+    -clip_raster(inRaster,outRaster,inShape)
+    -batch_stack_clip(indir,outdir,shape)
+
+Dependencies: gdal, numpy, scipy, ogr
 """
 
 # MOST ALL OF THIS CODE DERIVED FROM: https://pcjericks.github.io/py-gdalogr-cookbook/raster_layers.html
@@ -21,7 +21,6 @@ import osr
 import ogr
 import Image
 import ImageDraw
-import gdalnumeric
 import os
 import pdb
 import numpy as np
@@ -30,6 +29,7 @@ import traceback
 
 # Make this globally true. GDAL only prints error messages otherwise.
 gdal.UseExceptions()
+
 
 def read_metadata(metapath):
     """
@@ -133,6 +133,7 @@ def unpack_landsat(inpath, outpath, bands=None, clouds=None):
         ras = None
     '''
 
+
 def unpack_dir(indir, outdir, bands=None, clouds=None):
     """
     This function unpacks all landsat archives in a directory.
@@ -166,6 +167,7 @@ def unpack_dir(indir, outdir, bands=None, clouds=None):
 
         # Let the user know how progress is going.
         print(archive + ' unpacked (' + str(idx + 1) + ' of ' + str(count) + ')')
+
 
 def stack_layers(inDir, outPath, bands=None):
     """
@@ -245,6 +247,7 @@ def stack_layers(inDir, outPath, bands=None):
         traceback.print_exc()
         return
 
+
 def world2Pixel(geoMatrix, x, y):
     """
     Uses a gdal geomatrix (gdal.GetGeoTransform()) to calculate
@@ -265,6 +268,7 @@ def world2Pixel(geoMatrix, x, y):
     pixy = np.round((ulY - y) / xDist, decimals=0).astype(np.int)
     return (pixx, pixy)
 
+
 def Pixel2World(geoMatrix, x, y):
     """
     Converts pixel coordinates to wold coordinates.
@@ -277,6 +281,7 @@ def Pixel2World(geoMatrix, x, y):
     coorX = (ulX + (x * xdist))
     coorY = (ulY + (y * ydist))
     return (coorX, coorY)
+
 
 def clip_raster(inRaster, outRaster, inShape):
     """
@@ -338,7 +343,16 @@ def clip_raster(inRaster, outRaster, inShape):
     rasArray = ras.ReadAsArray()  # [bands, rows, columns]
 
     # Clip the raster array to the shape layer's extent
-    clip = rasArray[:, ulY:lrY, ulX:lrX]
+    if len(rasArray.shape) == 2:
+        clip = rasArray[ulY:lrY, ulX:lrX]
+        rows = clip.shape[0]
+        cols = clip.shape[1]
+        bands = 1
+    else:
+        clip = rasArray[:, ulY:lrY, ulX:lrX]
+        rows = clip.shape[1]
+        cols = clip.shape[2]
+        bands = clip.shape[0]
 
     # Create a new geomatrix for the image
     minXPixel, maxYPixel = Pixel2World(geoTrans, ulX, ulY)
@@ -352,22 +366,32 @@ def clip_raster(inRaster, outRaster, inShape):
         pixels.append(world2Pixel(geoTrans, xs[p], ys[p]))
 
     # Create the mask.
-    rasterPoly = Image.new("L", (int(clip.shape[2]), int(clip.shape[1])), 1)
+    rasterPoly = Image.new("L", (int(cols), int(rows)), 1)
     rasterize = ImageDraw.Draw(rasterPoly)
     rasterize.polygon(pixels, 0)
 
     mask = np.asarray(rasterPoly)
 
     # Now clip the image to the mask.
-    clip = np.choose(mask, (clip, 0))  # .astype(ras.GetRasterBand(1).DataType)
+    pdb.set_trace()
+    if nodata:
+        clip = np.choose(mask, (clip, nodata))  # .astype(ras.GetRasterBand(1).DataType)
+    else:
+        print('WARNING: NO DEFINED NODATA VALUE. USING -9999 INSTEAD.')
+        clip = np.choose(mask, (clip, -9999))
 
     # Save the clipped raster.
     driver = gdal.GetDriverByName('GTiff')
-    outRas = driver.Create(outRaster, clip.shape[2], clip.shape[1], clip.shape[0], ras.GetRasterBand(1).DataType)
-    for i in range(1, clip.shape[0] + 1):
-        outRas.GetRasterBand(i).WriteArray(clip[i - 1, :, :])
+    outRas = driver.Create(outRaster, cols, rows, bands, ras.GetRasterBand(1).DataType)
+    if bands > 1:
+        for i in range(1, bands + 1):
+            outRas.GetRasterBand(i).WriteArray(clip[i - 1, :, :])
+            if nodata:
+                outRas.GetRasterBand(i).SetNoDataValue(nodata)
+    else:
+        outRas.GetRasterBand(1).WriteArray(clip)
         if nodata:
-            outRas.GetRasterBand(i).SetNoDataValue(nodata)
+            outRas.GetRasterBand(1).SetNoDataValue(nodata)
 
     outRas.SetProjection(destSrs.ExportToWkt())
     outRas.SetGeoTransform(geoTrans)
@@ -412,3 +436,13 @@ def batch_stack_clip(indir, outdir, shape,bands=None):
             print(name + ' stacked and clipped')
         except:
             traceback.print_exc()
+
+
+def cfmask_to_mask(raster):
+    """Converts a landsat cfmask raster to a numpy mask that can be used w/ maskedarray"""
+    mask = raster.ReadAsArray()
+    # A value of 0 is clear of clouds/water. Make all other values = 1.
+    mask[mask != 0] = 1
+
+    # That's it, just return the result...
+    return mask
