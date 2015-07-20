@@ -8,9 +8,8 @@ import pickle
 import pdb
 import matplotlib.pyplot as plt
 
-'''***AUTOMATED SECTION BELOW***'''
 # Calculate data from images, or load?
-def save_image_data(phenoDir, sitename, save_data_path, roi_path=None):
+def save_image_data(phenoDir, sitename, save_data_path, roi_path=None, all_cc=None):
     # Open the mask if exists
     if roi_path:
         roi = Image.open(roi_path)
@@ -67,9 +66,29 @@ def load_image_data(saved_data_path):
         dates = data_dict['dates']
         return gcc, dates
 
-def create_plots(sitename, saved_data_path):
+def create_gcc_plots(sitename, saved_data_path, startTOD=datetime.time(10,0), stopTOD=datetime.time(14,0)):
+    """
+    Creates plots showing raw GCC vs per90 method.
+
+    Arguments:
+        sitename - PhenoCam sitename
+        saved_data_path - Path to pickled gcc/dates data
+        startTOD - (optional: default 10 AM) Start Time of Day
+        endTOD - (optional: default 2PM) Stop Time of Day
+
+    Returns:
+        Figure of plotted data.
+    """
     # Load the data
     gcc, dates = load_image_data(saved_data_path)
+
+    # Limit to a given time...
+    if startTOD and stopTOD:
+        mod_gcc = [cc for cc, dt in zip(gcc,dates) if dt.time() >= startTOD and dt.time() <= stopTOD]
+        mod_dates = [dt for cc, dt in zip(gcc,dates) if dt.time() >= startTOD and dt.time() <= stopTOD]
+        gcc = mod_gcc
+        dates = mod_dates
+
     # Now we have the gcc and dates, calculate per90
     per90_gcc, per90_dates = grn.per90(dates, gcc)
 
@@ -93,10 +112,10 @@ if __name__ == "__main__":
     # Nine Mile
     sitename = 'ninemileprairie'
     saved_data_path = '/storage/PhenoCam/data/ninemile_gcc_data.pickle'
-    create_plots(sitename, saved_data_path)
+    create_gcc_plots(sitename, saved_data_path)
     # Kansas
     sitename = 'kansas'
     saved_data_path = '/storage/PhenoCam/data/kansas_gcc_data.pickle'
-    create_plots(sitename, saved_data_path)
+    create_gcc_plots(sitename, saved_data_path)
     # Show the plots!
     plt.show()
