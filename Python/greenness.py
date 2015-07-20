@@ -3,6 +3,8 @@
 import numpy as np
 import pandas as pd
 from scipy import misc
+import datetime
+
 __author__ = 'Trey'
 
 def mean_gcc(img, roi = None):
@@ -42,7 +44,7 @@ def mean_gcc(img, roi = None):
     return gcc
 
 
-def per90(dates, gcc, label='Per90', period=3):
+def per90(dates, gcc):
     """
     Calculates the 90th percentile GCC from a numpy array of GCC values, over a
     given period.
@@ -52,36 +54,45 @@ def per90(dates, gcc, label='Per90', period=3):
     Parameters:
         dates - An array of datetime objects corresponding to the calculated GCC values.
         gcc - An array of gcc values, each of which corresponds to a date in x
-        label - A string for which to label the per90 calculated dataframe column.
         period - the period (number of days) over which the per90 gcc value will be calculated.
-            The default value is 3 days
+            The default value is 3 days [NOT CURRENTLY SUPPORTED. ONLY 3 DAY PERIOD.]
     Returns:
-        A pandas dataframe containng the resampled per90 data.
+        Two lists: per90_gcc, per90_dates
 
     Note:
-        This will likely change as the pandas dataframe is incorporated into
-        more of the codebase (i.e., the dates and gcc arguments will be replaced
-        by a pandas dataframe, and this function will simply resample the dataframe,
-        without initializing one from date and gcc arrays...)
+        Now returns two lists instead of dataframe.
     """
-    # Create a pandas dataframe for the data. (useful timeseries functions builtin)
 
-    df = pd.DataFrame(data=gcc, index=dates, columns=[label])
+    # Get the min/max days of the series.
+    startime = dates[0].date()
+    endtime = dates[-1].date()
 
+    # Create a timeseries panda's series
+    ts = pd.Series(gcc, index=dates)
 
-    # Define a 90th percentile function that can be used by pandas' resample method
-    #per = lambda x: np.percentile(x, 90)
+    # Compute the 90th percentile of every 3 day period (exclusive rn)
+    per90_gcc = []
+    per90_dates = []
+    while startime < endtime:
+        # Find the end of the window range.
+        end = startime + datetime.timedelta(days=3)
 
-    def per(x):
-        return np.percentile(x, 90)
+        # Obtain the timeseries window of interest.
+        window = ts[startime:end]
 
+        # Calculate the 90th percentile
+        per90_gcc.append(window.quantile(0.9))
 
-    # Resample the dataframe to period number of days
-    pdb.set_trace()
-    df = df.resample(str(period) + 'D', how=per)
+        # Find the middle day of the 3day period (this will be the reported date associated w/ the 90th percentile...
+        middate = startime + datetime.timedelta(days=1)
+        per90_dates.append(middate)
 
-    # Return the resampled dataframe
-    return df
+        # Set the new startime to be the old end.
+        startime = end
+
+    # Return the results as two lists.
+    return per90_gcc, per90_dates
+
 
 def mean_ndvi(rgb, ir, roi=None):
     """
