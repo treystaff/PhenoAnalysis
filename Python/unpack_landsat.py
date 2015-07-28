@@ -26,6 +26,8 @@ import pdb
 import numpy as np
 import re
 import traceback
+import datetime
+import tempfile
 
 # Make this globally true. GDAL only prints error messages otherwise.
 gdal.UseExceptions()
@@ -222,7 +224,8 @@ def stack_layers(inDir, outPath, bands=None):
         # Create the output raster
         driver = gdal.GetDriverByName('GTiff')
         outRas = driver.Create(outPath, cols, rows, len(fns) + 1, band.DataType)
-        outRas.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))  # not sure what the zeros are
+        outRas.SetGeoTransform(geo)
+        #outRas.SetGeoTransform((originX, pixelWidth, 0, originY, 0, pixelHeight))  # not sure what the zeros are
 
         # Get the spatial ref info
         outRasterSRS = osr.SpatialReference()
@@ -266,7 +269,8 @@ def world2Pixel(geoMatrix, x, y):
     #	(for one test case, may want to change later to np.round?)
     pixx = np.round((x - ulX) / xDist, decimals=0).astype(np.int)
     pixy = np.round((ulY - y) / xDist, decimals=0).astype(np.int)
-    return (pixx, pixy)
+
+    return pixx, pixy
 
 
 def Pixel2World(geoMatrix, x, y):
@@ -309,6 +313,8 @@ def clip_raster(inRaster, outRaster, inShape):
     geoTrans = ras.GetGeoTransform()
 
     # Open the shapefile & extract the layer.
+    if not os.path.isfile(inshape):
+        raise IOError('SHAPEFILE DOES NOT EXIST.')
     shp = ogr.Open(inShape)
     shpName = os.path.split(os.path.splitext(inShape)[0])[1]
     lyr = shp.GetLayer(shpName)
@@ -325,7 +331,7 @@ def clip_raster(inRaster, outRaster, inShape):
     geom.TransformTo(destSrs)
 
     # Get the layer's extent. This will be the size of the output raster.
-    xs = [];
+    xs = []
     ys = []
     pts = geom.GetGeometryRef(0)
     for p in range(pts.GetPointCount()):
@@ -338,6 +344,12 @@ def clip_raster(inRaster, outRaster, inShape):
     maxY = max(ys)
     ulX, ulY = world2Pixel(geoTrans, minX, maxY)
     lrX, lrY = world2Pixel(geoTrans, maxX, minY)
+
+    # Give a bit of extra room for shapes that approximate the layer's extent (squares).
+    ulX -= 1
+    ulY -= 1
+    lrX += 1
+    lrY += 1
 
     # Now get the raster values as numpy array
     rasArray = ras.ReadAsArray()  # [bands, rows, columns]
@@ -360,25 +372,16 @@ def clip_raster(inRaster, outRaster, inShape):
     geoTrans[0] = minXPixel
     geoTrans[3] = maxYPixel
 
-    # Map the polygon's verticies to pixels and create a mask
-    pixels = []
-    for p in range(pts.GetPointCount()):
-        pixels.append(world2Pixel(geoTrans, xs[p], ys[p]))
-
-    # Create the mask.
-    rasterPoly = Image.new("L", (int(cols), int(rows)), 1)
-    rasterize = ImageDraw.Draw(rasterPoly)
-    rasterize.polygon(pixels, 0)
-
-    mask = np.asarray(rasterPoly)
+    # Rasterize the polygon layer to create a mask
+    mask = rasterize_vector(inShape, rows, cols, geoTrans, transform=destSrs)
 
     # Now clip the image to the mask.
-    pdb.set_trace()
     if nodata:
-        clip = np.choose(mask, (clip, nodata))  # .astype(ras.GetRasterBand(1).DataType)
+        clip = np.choose(mask, (clip, nodata))
     else:
         print('WARNING: NO DEFINED NODATA VALUE. USING -9999 INSTEAD.')
         clip = np.choose(mask, (clip, -9999))
+        nodata = -9999
 
     # Save the clipped raster.
     driver = gdal.GetDriverByName('GTiff')
@@ -401,7 +404,7 @@ def clip_raster(inRaster, outRaster, inShape):
     outRas = None
 
 
-def batch_stack_clip(indir, outdir, shape,bands=None):
+def batch_stack_clip(indir, outdir, shape,bands=None,mask_band=False, remove_stack=False):
     """
     Batch stacks and clips the images found with in a directory
         to the given shapefile.
@@ -418,6 +421,9 @@ def batch_stack_clip(indir, outdir, shape,bands=None):
 
         shape: Full path to shapefile with which to clip the input rasters
             using clip_raster()
+        bands: List of bands to clip and stack (numbers, e.g., [1,2,3,4])
+        mask_band: Clip the cf_mask band included with surface reflectance product.
+        remove_stack: (optional). removes the unclipped stacked image (saves space if only using clipped version.
 
     Output:
         Landsat images that have been stacked and clipped, placed in
@@ -428,14 +434,26 @@ def batch_stack_clip(indir, outdir, shape,bands=None):
     walk = os.walk(indir)
     names = walk.next()[1]
     for name in names:
-        try:
-            stackpath = outdir + name + '.TIF'
-            clippath = outdir + name + '_CLIP.TIF'
-            stack_layers(indir + name + '/', stackpath, bands=bands)
-            clip_raster(stackpath, clippath, shape)
-            print(name + ' stacked and clipped')
-        except:
-            traceback.print_exc()
+        # Clip and stack the specified bands
+        stackpath = outdir + name + '.TIF'
+        clippath = outdir + name + '_CLIP.TIF'
+        stack_layers(indir + name + '/', stackpath, bands=bands)
+        clip_raster(stackpath, clippath, shape)
+        # Optionally move the stacked raster
+        if remove_stack:
+            os.remove(stackpath)
+
+        # Optionally clip the mask band.
+        if mask_band:
+            cloud_path = os.path.join(indir, name)
+            try:
+                cloud_path = glob.glob(cloud_path + '/*cfmask.tif')[0]
+                cloud_clip_path = outdir + name + '_cfmask_CLIP.tif'
+                clip_raster(cloud_path, cloud_clip_path, shape)
+            except IndexError:
+                print('WARNING: NO CFMASK FOUND FOR ' + cloud_path)
+
+        print(name + ' stacked and clipped')
 
 
 def cfmask_to_mask(raster):
@@ -446,3 +464,99 @@ def cfmask_to_mask(raster):
 
     # That's it, just return the result...
     return mask
+
+
+def filename2date(filename):
+    """
+    Extracts date from Landsat SURFACE REFLECTANCE filenames and returns datetime object.
+    Only SR filenames currently supported.
+    """
+    # Find the '-SC' in the filename.
+    dash = filename.find('-SC')
+    if dash:
+        return datetime.datetime.strptime(filename[dash-7:dash], '%Y%j')
+    else:
+        raise ValueError('Landsat filename does not conform to expected format.')
+
+
+def rasterize_vector(shp, rows, cols, geoTrans=None, saveto=None, method='within', transform=None):
+    """
+    Function for rasterizing a vector layer. Currently limited functionality
+    Arguments:
+        shp: Path to a shapefile containing polygon.
+        rows: Number of rows the resulting raster will have
+        cols: Number of columns the resulting raster will have
+        geoTrans: (Eventually optional, but not yet...) GeoTransformation matrix for output raster
+        saveto: (optional) path to save the raster as a .tif file to.
+        method: (optional: default='within'). Determines method for rasteriziation. 'within' includes
+            pixels that have centers that fall within the polygon. 'touches' includes all pixels that touch
+            the vector layer.
+    Returns:
+        A numpy array representing the rasterized vector layer
+    """
+    # Open the shapefile
+    shp = ogr.Open(shp)
+
+    # Get the layer from the shape
+    layer = shp.GetLayer()
+
+    # Get the layer's information
+    lyrSrs = layer.GetSpatialRef().ExportToWkt()
+
+    # Optionally transform to specified transformation
+    if transform and transform.ExportToWkt() != lyrSrs:
+        # Get the layer geometry
+        poly = layer.GetNextFeature()
+        geom = poly.GetGeometryRef()
+
+        # Transform the geometry.
+        geom.TransformTo(transform)
+
+        # Create a new layer.
+        lyr_driver = ogr.GetDriverByName('ESRI Shapefile')
+
+        lyr_driver_name = tempfile.NamedTemporaryFile(suffix='.shp').name
+        lyr_source = lyr_driver.CreateDataSource(lyr_driver_name)
+        new_lyr = lyr_source.CreateLayer(lyr_driver_name, transform, geom_type=ogr.wkbPolygon)
+
+        # Add an ID field to tie the geometry to
+        id_field = ogr.FieldDefn('id', ogr.OFTInteger)
+        new_lyr.CreateField(id_field)
+
+        # Set the transformed geometry
+        feature_defn = new_lyr.GetLayerDefn()
+        feature = ogr.Feature(feature_defn)
+        feature.SetGeometry(geom)
+        feature.SetField('id',1)
+        new_lyr.CreateFeature(feature)
+
+        # Set the existing layer to be the new layer
+        layer = new_lyr
+        lyrSrs = transform.ExportToWkt()
+
+    # Create the raster's name
+    if not saveto:
+        remove = True
+        saveto = tempfile.NamedTemporaryFile(suffix='.tif')
+        saveto = saveto.name
+    else:
+        remove = False
+
+    # Create the new raster
+    driver = gdal.GetDriverByName('GTiff')
+    outRas = driver.Create(saveto, cols, rows, 1)
+    outRas.SetProjection(lyrSrs)
+    outRas.SetGeoTransform(geoTrans)
+    outRas.GetRasterBand(1).Fill(1)
+
+    # Rasterize the layer
+    if method.lower() == 'touches':
+        gdal.RasterizeLayer(outRas,[1],layer,None, None, [0], ['ALL_TOUCHED=TRUE'])
+    else:  # Just default to this.
+        gdal.RasterizeLayer(outRas,[1],layer,None, None, [0])
+    arr = outRas.ReadAsArray()
+    if remove:
+        os.remove(saveto)
+
+    # Return the numpy array
+    return arr
