@@ -44,7 +44,7 @@ def mean_gcc(img, roi = None):
     return gcc
 
 
-def per90(dates, gcc):
+def per90(dates, data):
     """
     Calculates the 90th percentile GCC from a numpy array of GCC values, over a
     given period.
@@ -52,12 +52,12 @@ def per90(dates, gcc):
     Supports arbitrarily long time series.
 
     Parameters:
-        dates - An array of datetime objects corresponding to the calculated GCC values.
-        gcc - An array of gcc values, each of which corresponds to a date in x
+        dates - An array of datetime objects corresponding to data values.
+        data - An array of gcc values, each of which corresponds to a date in x
         period - the period (number of days) over which the per90 gcc value will be calculated.
             The default value is 3 days [NOT CURRENTLY SUPPORTED. ONLY 3 DAY PERIOD.]
     Returns:
-        Two lists: per90_gcc, per90_dates
+        Two lists: per90_dates, per90_data
 
     Note:
         Now returns two lists instead of dataframe.
@@ -68,10 +68,10 @@ def per90(dates, gcc):
     endtime = dates[-1].date()
 
     # Create a timeseries panda's series
-    ts = pd.Series(gcc, index=dates)
+    ts = pd.Series(data, index=dates)
 
     # Compute the 90th percentile of every 3 day period (exclusive rn)
-    per90_gcc = []
+    per90_data = []
     per90_dates = []
     while startime < endtime:
         # Find the end of the window range.
@@ -81,7 +81,7 @@ def per90(dates, gcc):
         window = ts[startime:end]
 
         # Calculate the 90th percentile
-        per90_gcc.append(window.quantile(0.9))
+        per90_data.append(window.quantile(0.9))
 
         # Find the middle day of the 3day period (this will be the reported date associated w/ the 90th percentile...
         middate = startime + datetime.timedelta(days=1)
@@ -91,7 +91,7 @@ def per90(dates, gcc):
         startime = end
 
     # Return the results as two lists.
-    return per90_gcc, per90_dates
+    return per90_dates, per90_data
 
 
 def mean_ndvi(rgb, ir, roi=None):
@@ -108,7 +108,8 @@ def mean_ndvi(rgb, ir, roi=None):
     """
     # Extract the red and infrared bands
     red, _, _ = rgb.split()
-    ir, _, _ = ir.split()
+    ir = ir.split()
+    ir = ir[0]
 
     red = np.asarray(red, dtype=float)
     ir = np.asarray(ir, dtype=float)
