@@ -153,9 +153,9 @@ def IRview_to_NIR(rgb, irview, saveto=None):
     ir_exp, _ = read_header(irview)
     if rgb_exp != ir_exp:
         # Correct for exposure
-        ir = np.true_divide(ir, float(ir_exp))
-        red = np.true_divide(red, float(rgb_exp))
-        visible = np.true_divide(visible, float(rgb_exp))
+        ir = np.true_divide(ir, math.sqrt(float(ir_exp)))
+        red = np.true_divide(red, math.sqrt(float(rgb_exp)))
+        visible = np.true_divide(visible, math.sqrt(float(rgb_exp)))
 
     # Calculate the NIR component:
     nir = ir - visible
