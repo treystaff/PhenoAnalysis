@@ -4,6 +4,7 @@ from pytesseract import image_to_string
 import re
 from warnings import warn
 import numpy as np
+import math
 
 def charCorrect(inStr):
     """
