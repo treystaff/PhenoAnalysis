@@ -15,16 +15,21 @@ def mean_gcc(img, roi = None):
     Mean Gcc = mean(green) / (mean(green)+mean(red)+mean(blue))
 
     Parameters:
-        img - a PIL image object of a PhenoCam image.
-        roi - (optional) a PIL image object of a PhenoCam image region of interest (roi).
+        img - a PIL image object or numpy array of a PhenoCam image.
+        roi - (optional) a PIL image or numpy array object of a PhenoCam image region of interest (roi).
     Returns:
         mean gcc value for non-masked portions of the input image.
     """
     # Extract mean RGB values
-    red, green, blue = img.split()
-    red = np.asarray(red, dtype=float)
-    green = np.asarray(green, dtype=float)
-    blue = np.asarray(blue, dtype=float)
+    try:
+        red, green, blue = img.split()
+        red = np.asarray(red, dtype=float)
+        green = np.asarray(green, dtype=float)
+        blue = np.asarray(blue, dtype=float)
+    except AttributeError:
+        red = img[:, :, 0].astype(float)
+        green = img[:, :, 1].astype(float)
+        blue = img[:, :, 2].asttype(float)
 
     if roi:
         roi = np.asarray(roi, dtype=bool)
@@ -99,20 +104,29 @@ def mean_ndvi(rgb, ir, roi=None):
     Calculates the mean NDVI for the rgb/ir image pair
 
     Parameters:
-        rgb - PIL image object of PhenoCam RGB image with same timestamp as ir
-        ir -  PIL image object of PhenoCam IR image with same timestamp as rgb
-        roi - PIL image object of PhenoCam roi image.
+        rgb - PIL image object of PhenoCam RGB image with same timestamp as ir. Alternatively, this can be a single-band
+            red image. OR numpy array
+        ir -  PIL image object of PhenoCam IR image with same timestamp as rgb OR numpy array.
+        roi - PIL image object of PhenoCam roi image. OR numpy array
 
     Returns:
         The mean NDVI value.
     """
     # Extract the red and infrared bands
-    red, _, _ = rgb.split()
-    ir = ir.split()
-    ir = ir[0]
+    try:
+        red = rgb.split()
+        red = red[0]
 
-    red = np.asarray(red, dtype=float)
-    ir = np.asarray(ir, dtype=float)
+        ir = ir.split()
+        ir = ir[0]
+
+        red = np.asarray(red, dtype=float)
+        ir = np.asarray(ir, dtype=float)
+    except AttributeError:
+        if len(rgb.shape) == 3:
+            red = rgb[:, :, 0].astype(float)
+        else:
+            red = rgb.astype(float)
 
     # optionally use roi
     if roi:
