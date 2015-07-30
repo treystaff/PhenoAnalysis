@@ -5,6 +5,8 @@ import re
 from warnings import warn
 import numpy as np
 import math
+from scipy.optimize import curve_fit
+import pdb
 
 def charCorrect(inStr):
     """
@@ -58,9 +60,12 @@ def read_header(img):
     # Read text from the image
     text = image_to_string(edges)
     if not text:
-        raise EOFError('No text was found in image')
+        raise ValueError('No text was found in image')
 
     # Extract the relevant values
+    temperature = None
+    exposure = None
+
     header_list = text.split('\n')
     for text in header_list:
         text = charCorrect(text)
@@ -113,7 +118,7 @@ def read_header(img):
             else:
                 try:
                     exposure = exposure[0]
-                except KeyError:
+                except IndexError:
                     raise ValueError('Could not read exposure value')
                 try:
                     float(exposure)
@@ -135,6 +140,7 @@ def IRview_to_NIR(rgb, irview, saveto=None):
 
     Returns:
         nir: a near-infrared image (PIL object)
+        red: an adjusted red image (PIL object), for use in calculating NDVI.
     """
     # Obtain bands from rgb image
     red, green, blue = rgb.split()
@@ -152,6 +158,9 @@ def IRview_to_NIR(rgb, irview, saveto=None):
     # Obtain the exposure values from the images
     rgb_exp, _ = read_header(rgb)
     ir_exp, _ = read_header(irview)
+    if rgb_exp is None or ir_exp is None:
+        raise ValueError('EXPOSURE VALUES NOT READ FROM IMAGES. COULD NOT CORRECT.')
+
     if rgb_exp != ir_exp:
         # Correct for exposure
         ir = np.true_divide(ir, math.sqrt(float(ir_exp)))
@@ -163,10 +172,67 @@ def IRview_to_NIR(rgb, irview, saveto=None):
 
     # Create a new PIL image
     nir_image = Image.fromarray(nir)
+    red = Image.fromarray(red)
 
     # Optionally, save
     if saveto:
         nir_image.save(saveto)
 
     # Return the result.
-    return nir_image
+    return nir_image, red
+
+def corrected_mean_ndvi(rgb, irview, roi):
+    """Experimental function"""
+    # Obtain the exposure values from the images
+    rgb_exp, _ = read_header(rgb)
+    ir_exp, _ = read_header(irview)
+
+    # Obtain bands from rgb image
+    red, green, blue = rgb.split()
+    red = np.asarray(red, dtype=np.float)
+    green = np.asarray(green, dtype=np.float)
+    blue = np.asarray(blue, dtype=np.float)
+
+    # Obtain one of the bands from the IR image
+    ir, _, _ = irview.split()
+    ir = np.asarray(ir, dtype=np.float)
+
+    red = np.ma.array(red, mask=roi).mean()
+    green = np.ma.array(green, mask=roi).mean()
+    blue = np.ma.array(blue, mask=roi).mean()
+    ir = np.ma.array(ir, mask=roi).mean()
+
+    # Calculate the 'visible component' of the image pair
+    visible = 0.3 * red + 0.59 * green + 0.11 * blue
+
+    if rgb_exp != ir_exp:
+        # Correct for exposure
+        ir = np.true_divide(ir, math.sqrt(float(ir_exp)))
+        red = np.true_divide(red, math.sqrt(float(rgb_exp)))
+        visible = np.true_divide(visible, math.sqrt(float(rgb_exp)))
+
+    # Calculate the NIR component:
+    nir = ir - visible
+
+    # Now calculate NDVI
+    ndvi = (nir - red) / (nir + red)
+
+    return ndvi
+
+def fit_sigmoid(x, y):
+    """Fits simple sigmoid model to the data"""
+    def sigmoid(x, a, b, c, d):
+        return a + (b / (1 + np.exp(c-d*x)))
+
+    a, b = curve_fit(sigmoid, x, y)
+
+    return a, b
+
+def fit_double_sigmoid(x, y):
+    """Fits a double sigmoid model to the data"""
+    def sigmoid(x, a, b, c, d, e, f):
+        return a + (b / ((1 + np.exp(c-d*x)) * (1 + np.exp(e - f*x))))
+
+    a, b = curve_fit(sigmoid, x, y)
+
+    return a, b
