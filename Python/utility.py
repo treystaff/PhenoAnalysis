@@ -6,6 +6,8 @@ from warnings import warn
 import numpy as np
 import math
 from scipy.optimize import curve_fit
+import datetime
+from scipy.misc import imsave
 import pdb
 
 def charCorrect(inStr):
@@ -44,6 +46,7 @@ def read_header(img):
          PhenoCam font family, which should significantly increase accuracy. See e.g.,
          http://tomsik.eu/train_tesseract
     """
+    img = Image.fromarray(img)
     # Crop the image to the approximate area of the header
     #   (leave larger than necessary for variable-length headers)
     crop = img.crop((0, 0, 1296, 200))
@@ -128,7 +131,7 @@ def read_header(img):
     # Return exposure and temp values.
     return exposure, temperature
 
-def IRview_to_NIR(rgb, irview, saveto=None):
+def IRview_to_NIR(rgb, irview,cir=None, saveto=None):
     """
     Converts PhenoCam IR view to a NIR image according to the method described by
     Petach 2014.
@@ -143,14 +146,10 @@ def IRview_to_NIR(rgb, irview, saveto=None):
         red: an adjusted red image (PIL object), for use in calculating NDVI.
     """
     # Obtain bands from rgb image
-    red, green, blue = rgb.split()
-    red = np.asarray(red, dtype=np.float)
-    green = np.asarray(green, dtype=np.float)
-    blue = np.asarray(blue, dtype=np.float)
+    red, green, blue = get_image_bands(rgb)
 
     # Obtain one of the bands from the IR image
-    ir, _, _ = irview.split()
-    ir = np.asarray(ir, dtype=np.float)
+    ir, _, _ = get_image_bands(irview)
 
     # Calculate the 'visible component' of the image pair
     visible = 0.3 * red + 0.59 * green + 0.11 * blue
@@ -165,21 +164,34 @@ def IRview_to_NIR(rgb, irview, saveto=None):
         # Correct for exposure
         ir = np.true_divide(ir, math.sqrt(float(ir_exp)))
         red = np.true_divide(red, math.sqrt(float(rgb_exp)))
+        green = np.true_divide(green, math.sqrt(float(rgb_exp)))
         visible = np.true_divide(visible, math.sqrt(float(rgb_exp)))
+
+    pdb.set_trace()
+    # Optionally, return a cir image and ndvi
+    if cir is not None:
+        cir = np.ones(rgb.shape)
+        cir[:,:,0] = ir
+        cir[:,:,1] = red
+        cir[:,:,2] = green
+
+        ndvi = np.ones(red.shape)
+        ndvi = np.true_divide(np.subtract(ir, red), np.add(ir, red))
+
 
     # Calculate the NIR component:
     nir = ir - visible
 
-    # Create a new PIL image
-    nir_image = Image.fromarray(nir)
-    red = Image.fromarray(red)
+    # Create a new PIL image (Problem w/ PIL, so don't use)
+    # nir_image = Image.fromarray(nir)
+    # red = Image.fromarray(red)
 
     # Optionally, save
     if saveto:
-        nir_image.save(saveto)
+        imsave(saveto, nir)
 
     # Return the result.
-    return nir_image, red
+    return nir, red, cir, ndvi
 
 def corrected_mean_ndvi(rgb, irview, roi):
     """Experimental function"""
@@ -188,19 +200,16 @@ def corrected_mean_ndvi(rgb, irview, roi):
     ir_exp, _ = read_header(irview)
 
     # Obtain bands from rgb image
-    red, green, blue = rgb.split()
-    red = np.asarray(red, dtype=np.float)
-    green = np.asarray(green, dtype=np.float)
-    blue = np.asarray(blue, dtype=np.float)
+    red, green, blue = get_image_bands(rgb, roi=roi)
+
 
     # Obtain one of the bands from the IR image
-    ir, _, _ = irview.split()
-    ir = np.asarray(ir, dtype=np.float)
+    ir, _, _ = get_image_bands(irview, roi=roi)
 
-    red = np.ma.array(red, mask=roi).mean()
-    green = np.ma.array(green, mask=roi).mean()
-    blue = np.ma.array(blue, mask=roi).mean()
-    ir = np.ma.array(ir, mask=roi).mean()
+    red = np.ma.average(red)
+    green = np.ma.average(green)
+    blue = np.ma.average(blue)
+    ir = np.ma.average(ir)
 
     # Calculate the 'visible component' of the image pair
     visible = 0.3 * red + 0.59 * green + 0.11 * blue
@@ -219,20 +228,33 @@ def corrected_mean_ndvi(rgb, irview, roi):
 
     return ndvi
 
-def fit_sigmoid(x, y):
-    """Fits simple sigmoid model to the data"""
-    def sigmoid(x, a, b, c, d):
-        return a + (b / (1 + np.exp(c-d*x)))
 
-    a, b = curve_fit(sigmoid, x, y)
+def limit_data_tod(dates, data, startTOD=datetime.time(10,0), stopTOD=datetime.time(14,0)):
+    """limit gcc time of day"""
+    mod_data = [cc for cc, dt in zip(data,dates) if dt.time() >= startTOD and dt.time() <= stopTOD]
+    mod_dates = [dt for cc, dt in zip(data,dates) if dt.time() >= startTOD and dt.time() <= stopTOD]
+    return mod_dates, mod_data
 
-    return a, b
 
-def fit_double_sigmoid(x, y):
-    """Fits a double sigmoid model to the data"""
-    def sigmoid(x, a, b, c, d, e, f):
-        return a + (b / ((1 + np.exp(c-d*x)) * (1 + np.exp(e - f*x))))
+def get_image_bands(img, roi=None):
+    """
+    Returns the RGB bands from PhenoCam, optionally masked
+    """
+    # Extract RGB values
+    try:
+        red, green, blue = img.split()
+        red = np.asarray(red, dtype=float)
+        green = np.asarray(green, dtype=float)
+        blue = np.asarray(blue, dtype=float)
+    except AttributeError:
+        red = img[:, :, 0].astype(float)
+        green = img[:, :, 1].astype(float)
+        blue = img[:, :, 2].astype(float)
 
-    a, b = curve_fit(sigmoid, x, y)
+    if roi is not None:
+        roi = np.asarray(roi, dtype=bool)
+        red = np.ma.array(red, mask=roi)
+        green = np.ma.array(green, mask=roi)
+        blue = np.ma.array(blue, mask=roi)
 
-    return a, b
+    return red, green, blue
