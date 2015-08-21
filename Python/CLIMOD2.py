@@ -1,3 +1,5 @@
+import pandas as pd
+
 def read_climod2(path):
     """
     Function for reading CLIMOD2 csv data into pandas dataframe.
