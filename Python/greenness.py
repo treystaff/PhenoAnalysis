@@ -4,6 +4,10 @@ import numpy as np
 import pandas as pd
 from scipy import misc
 import datetime
+import utility as util
+import pdb
+import time
+import os, sys
 
 __author__ = 'Trey'
 
@@ -20,27 +24,20 @@ def mean_gcc(img, roi = None):
     Returns:
         mean gcc value for non-masked portions of the input image.
     """
-    # Extract mean RGB values
-    try:
-        red, green, blue = img.split()
-        red = np.asarray(red, dtype=float)
-        green = np.asarray(green, dtype=float)
-        blue = np.asarray(blue, dtype=float)
-    except AttributeError:
-        red = img[:, :, 0].astype(float)
-        green = img[:, :, 1].astype(float)
-        blue = img[:, :, 2].asttype(float)
+    # Extract RGB values
+    red, green, blue = util.get_image_bands(img, roi=roi)
 
-    if roi:
-        roi = np.asarray(roi, dtype=bool)
-        red = np.ma.array(red, mask=roi)
-        green = np.ma.array(green, mask=roi)
-        blue = np.ma.array(blue, mask=roi)
-
+    # For some strange reason, printing red is sometimes the only way
+    # to prevent a segfault. Redirect the print to /dev/null so it doesn't
+    # hog stdout
+    # f = open(os.devnull, 'w')
+    # sys.stdout = f
+    #print(red)
+    #print('didsomething: ' + str(datetime.datetime.now().time()))
     # Calculate mean of pixels
-    red = red.mean()
-    green = green.mean()
-    blue = blue.mean()
+    red = np.ma.average(red)
+    green = np.ma.average(green)
+    blue = np.ma.average(blue)
 
     # Calculate GCC
     gcc = green / (red + green + blue)
@@ -67,6 +64,8 @@ def per90(dates, data):
     Note:
         Now returns two lists instead of dataframe.
     """
+    # First, make sure the data is sorted.
+    dates, data = zip(*sorted(zip(dates, data)))
 
     # Get the min/max days of the series.
     startime = dates[0].date()
@@ -129,7 +128,7 @@ def mean_ndvi(rgb, ir, roi=None):
             red = rgb.astype(float)
 
     # optionally use roi
-    if roi:
+    if roi is not None:
         roi = np.asarray(roi, dtype=bool)
         red = np.ma.array(red, mask=roi)
         ir = np.ma.array(ir, mask=roi)
@@ -198,3 +197,77 @@ def create_cir(rgb, ir, saveto=None):
 
     # Return the result
     return cir
+
+
+def mean_exg(img, roi=None):
+    """
+    Calculates mean EXG of an RBG PhenoCam image
+    """
+    # Extract mean RGB values
+    red, green, blue = util.get_image_bands(img, roi=roi)
+
+    # Calculate mean of pixels
+    red = np.ma.average(red)
+    green = np.ma.average(green)
+    blue = np.ma.average(blue)
+
+    # Calculate EXG
+    exg = (2.0 * green) - (red + blue)
+
+    # Return the result
+    return exg
+
+def mean_rcc(img, roi=None):
+    """
+    Calculates mean gcc from an image represented by a nummpy array
+    Assumes array structured as [rows,cols,bands] where the first
+    three bands are RGB.
+    Mean Rcc = mean(red) / (mean(green)+mean(red)+mean(blue))
+
+    Parameters:
+        img - a PIL image object or numpy array of a PhenoCam image.
+        roi - (optional) a PIL image or numpy array object of a PhenoCam image region of interest (roi).
+    Returns:
+        mean gcc value for non-masked portions of the input image.
+    """
+    # Extract RGB values
+    red, green, blue = util.get_image_bands(img, roi=roi)
+
+    # Calculate mean of pixels
+    red = np.ma.average(red)
+    green = np.ma.average(green)
+    blue = np.ma.average(blue)
+
+    # Calculate GCC
+    gcc = red / (red + green + blue)
+
+    # Return the calculated value.
+    return gcc
+
+
+def mean_bcc(img, roi=None):
+    """
+    Calculates mean gcc from an image represented by a nummpy array
+    Assumes array structured as [rows,cols,bands] where the first
+    three bands are RGB.
+    Mean Bcc = mean(blue) / (mean(green)+mean(red)+mean(blue))
+
+    Parameters:
+        img - a PIL image object or numpy array of a PhenoCam image.
+        roi - (optional) a PIL image or numpy array object of a PhenoCam image region of interest (roi).
+    Returns:
+        mean bcc value for non-masked portions of the input image.
+    """
+    # Extract RGB values
+    red, green, blue = util.get_image_bands(img, roi=roi)
+
+    # Calculate mean of pixels
+    red = np.ma.average(red)
+    green = np.ma.average(green)
+    blue = np.ma.average(blue)
+
+    # Calculate GCC
+    gcc = blue / (red + green + blue)
+
+    # Return the calculated value.
+    return gcc
